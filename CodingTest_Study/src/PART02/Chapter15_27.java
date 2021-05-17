@@ -3,30 +3,36 @@ package PART02;
 import java.util.*;
 
 public class Chapter15_27 {
-
-	public static int lower(int[] arr, int target, int start, int end)
+	
+	//이진 탐색시 중간점을 기준으로하여 중간점(mid)이 왼쪽으로 이동하는 경우
+	public static int left(int[] arr, int target, int start, int end)
 	{
 		while(start < end)
 		{
-			int mid = (start / end) / 2;
+			int mid = (start + end) /2;
+			//arr[mid](중간 값이) target 값 보다 크거나 같은 경우 (배열에서 같거나 뒤에 있는 경우)
 			if(arr[mid] >= target)
 			{
+				//mid 값 뒤의 배열에는 target 값이 없으므로 end(배열의 크기)값을 mid 값 만큼 조정한다
 				end = mid;
 			}
 			else
 			{
+				//mid 값이 target 보다 작으므로 start 값을 조정
 				start = mid + 1;
 			}
 		}
 		
+		System.out.println(end);
 		return end;
 	}
 	
-	public static int upper(int[] arr, int target, int start, int end)
+	//이진 탐색시 중간점을 기준으로하여 중간점(mid)이 오른쪽으로 이동하는 경우
+	public static int right(int[] arr, int target, int start, int end)
 	{
 		while(start < end)
 		{
-			int mid = (start / end) / 2;
+			int mid = (start + end) /2 ;
 			if(arr[mid] > target)
 			{
 				end = mid;
@@ -36,46 +42,43 @@ public class Chapter15_27 {
 				start = mid + 1;
 			}
 		}
+		
+		System.out.println(end);
 		return end;
 	}
 	
-	public static int binarySearch(int[] arr, int leftValue, int rightValue)
+	//countBy 함수는 target에 해당하는 갯수를 구할 때 주로 쓴다
+	//각 left, right는 end 값을 배열의 크기로 한다 (end 값의 크기에 따라 -> end 값이 갯수가 됨)
+	public static int countByValue(int[] arr, int target, int start, int end)
 	{
-		int rightIndex = upper(arr, rightValue, 0, arr.length);
-		int leftIndex = lower(arr, leftValue, 0, arr.length);
+		int leftCount = left(arr, target, start, end);
+		int rightCount = right(arr, target, start, end);
 		
-		return rightIndex - leftIndex;
+		return (rightCount - leftCount);
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int N;
-		int[] arr;
-		int X;
-		
 		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int x = sc.nextInt();
 		
-		N = sc.nextInt();
-		X = sc.nextInt();
-		
-		arr = new int[N];
-		
-		for (int i = 0; i < N; i++) 
+		int[] arr = new int[n];
+		for (int i = 0; i < n; i++) 
 		{
 			arr[i] = sc.nextInt();
 		}
+		Arrays.parallelSort(arr);
 		
-		//Arrays.sort(arr);
+		int answer = countByValue(arr, x, 0, arr.length);
 		
-		int cnt = binarySearch(arr, X, X);
-		
-		if(cnt == 0)
+		if(answer == 0)
 		{
 			System.out.println(-1);
 		}
 		else
 		{
-			System.out.println(cnt);
+			System.out.println(answer);
 		}
 		
 	}
