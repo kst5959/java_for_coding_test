@@ -37,8 +37,15 @@ class Edge implements Comparable<Edge>
 		{
 			return -1;
 		}
-		
-		return 1;
+		else if(this.distance > o2.getDistance())
+		{
+			
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 	
 }
